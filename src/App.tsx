@@ -1,8 +1,10 @@
 import './App.css';
-import data from './got-episodes.json';
+// import data from './got-episodes.json';
 import { EpisodeCard } from './components/components'
 import { IEpisode } from './components/components'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+
 
 const createepisodeCard = (props: IEpisode) => {
 
@@ -29,9 +31,17 @@ const createepisodeCard = (props: IEpisode) => {
 
 
 
-
-
 const App = () => {
+
+  
+  const [data, setData] = useState<IEpisode[]>([]);
+
+
+  useEffect(() => {
+    fetch("https://api.tvmaze.com/shows/82/episodes")
+      .then(async response => response.json())
+      .then((jsonBody: IEpisode[]) => setData(jsonBody));
+  }, [])
 
   const [inputSearch, setInputSearch] = useState('');
 
